@@ -3,8 +3,63 @@
 <head>
 <title>Conforto Térmico</title>
 <meta charset='utf-8'>
-<script src="d3.v4.min.js"></script>
 <script src="engine_pmv_ppd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.71/jquery.csv-0.71.min.js"></script>
+<script type="text/javascript">  
+PMVboth(0,0,0,0,0,0,0,0)[0];
+PMVboth(0,0,0,0,0,0,0,0)[1];
+
+    $(document).ready(function() {
+
+    document.getElementById('txtFileUpload').addEventListener('change', upload, false);
+
+    function browserSupportFileUpload() {
+        var isCompatible = false;
+        if (window.File && window.FileReader && window.FileList && window.Blob) {
+        isCompatible = true;
+        }
+        return isCompatible;
+    }
+    function upload(evt) {
+        if (!browserSupportFileUpload()) {
+            alert('The File APIs are not fully supported in this browser!');
+            } else {
+                var data = null;
+                var file = evt.target.files[0];
+                var reader = new FileReader();
+                reader.readAsText(file);
+                reader.onload = function(event) {
+                    var csvData = event.target.result;
+                    data = $.csv.toObjects(csvData);
+					resultados=[]
+					dados = data
+					for (i in dados){
+						resultados.push(PMVboth(parseFloat(dados[i]["CLO"]),parseFloat(dados[i]["MET"]),parseFloat(dados[i]["WME"]),parseFloat(dados[i]["TA"]),parseFloat(dados[i]["TR"]),parseFloat(dados[i]["VEL"]),parseFloat(dados[i]["RH"]),parseFloat(dados[i]["PA"])))
+					}
+					PMVmed=[]
+					for (i in resultados){
+						PMVmed.push(resultados[i][0])
+					}
+					PPDmed=[]
+					for (i in resultados){
+						PPDmed.push(resultados[i][1])
+					}
+					function getSum(total, num) {
+						return total + num;
+					}
+					document.getElementById("titulo3").innerHTML=(PMVmed.reduce(getSum)/PMVmed.length).toFixed(2);
+					document.getElementById("titulo4").innerHTML=(PPDmed.reduce(getSum)/PPDmed.length).toFixed(2);
+					resultados.pop(resultados.length-1)
+                };
+                reader.onerror = function() {
+                    alert('Unable to read ' + file.fileName);
+                };
+            }
+        }
+    });
+
+</script>
 </head>
 <body bgcolor="">
 <h1>1) CÁLCULO ÚNICO</h1>
@@ -25,9 +80,10 @@
 
 
 <h1>2) CÁLCULO EM LOTE</h1>
-<input type='file' id='files'>
-<input type="button" onclick="csvDados()" value="Carregar">
+<div id="dvImportSegments" class="fileupload ">
+<input type='file' name='Carregar' id='txtFileUpload' accept=".csv">
 <button id='baixar' onclick='exportToCSV(resultados)'>Baixar</button>
+</div>
 <h4>PMV MÉDIO: <small id="titulo3"></small></h4>
 <h4>PPD MÉDIO: <small id="titulo4"></small></h4>
 	
@@ -44,34 +100,6 @@ function main(){
 	var pa=parseFloat(document.getElementById("pa").value);
 	document.getElementById("titulo1").innerHTML=PMVboth(clo,met,wme,ta,tmr,va,ur,pa)[0];
 	document.getElementById("titulo2").innerHTML=PMVboth(clo,met,wme,ta,tmr,va,ur,pa)[1];
-}
-
-function csvDados(){
-PMVboth(0,0,0,0,0,0,0,0)[0];
-PMVboth(0,0,0,0,0,0,0,0)[1];
-d3.csv(document.getElementById('files').value,function(data){
-	resultados=[]
-	dados = data
-	for (i in dados){
-		resultados.push(PMVboth(parseFloat(dados[i]["CLO"]),parseFloat(dados[i]["MET"]),parseFloat(dados[i]["WME"]),parseFloat(dados[i]["TA"]),parseFloat(dados[i]["TR"]),parseFloat(dados[i]["VEL"]),parseFloat(dados[i]["RH"]),parseFloat(dados[i]["PA"])))
-	}
-	PMVmed=[]
-	for (i in resultados){
-		PMVmed.push(resultados[i][0])
-	}
-	PPDmed=[]
-	for (i in resultados){
-		PPDmed.push(resultados[i][1])
-	}
-	function getSum(total, num) {
-		return total + num;
-	}
-	document.getElementById("titulo3").innerHTML=(PMVmed.reduce(getSum)/PMVmed.length).toFixed(2);
-	document.getElementById("titulo4").innerHTML=(PPDmed.reduce(getSum)/PPDmed.length).toFixed(2);
-	resultados.pop(resultados.length-1)
-	console.log(dados.length)
-	console.log(resultados.length)
-})
 }
 
 var objectToCSVRow = function(dataObject) {
