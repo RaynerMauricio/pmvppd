@@ -3,7 +3,7 @@ var alphas;
 
 $(document).ready(function() {
             $.ajax({
-                url: 'http://staging_redes.pbeedifica.com.br/naturalconfort/svm_parameters.json',
+                url: 'https://raynermauricio.github.io/pmvppd/svm_parameters.json',
                 dataType: 'json',
                 type: 'POST',
                 success:function(response) {
