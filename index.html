@@ -1,142 +1,358 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-<title>Conforto Térmico</title>
-<meta charset='utf-8'>
-<script src="engine_pmv_ppd.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.71/jquery.csv-0.71.min.js"></script>
-<script type="text/javascript">  
-PMVboth(0,0,0,0,0,0,0,0)[0];
-PMVboth(0,0,0,0,0,0,0,0)[1];
+	<title>Conforto Térmico</title>
+	<meta charset='utf-8'/>
+	
+	<!-- pmv/ppd -->
+	<script src="js/engine_pmv_ppd.js"></script>
+	
+	<!-- jquery -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	
+	<!-- UIkit CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.30/css/uikit.min.css" />
 
-    $(document).ready(function() {
+	<!-- jQuery is required -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-    document.getElementById('txtFileUpload').addEventListener('change', upload, false);
+	<!-- UIkit JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.30/js/uikit.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.30/js/uikit-icons.min.js"></script>
 
-    function browserSupportFileUpload() {
-        var isCompatible = false;
-        if (window.File && window.FileReader && window.FileList && window.Blob) {
-        isCompatible = true;
-        }
-        return isCompatible;
-    }
-    function upload(evt) {
-        if (!browserSupportFileUpload()) {
-            alert('The File APIs are not fully supported in this browser!');
-            } else {
-                var data = null;
-                var file = evt.target.files[0];
-                var reader = new FileReader();
-                reader.readAsText(file);
-                reader.onload = function(event) {
-                    var csvData = event.target.result;
-                    data = $.csv.toObjects(csvData);
-					resultados=[]
-					dados = data
-					for (i in dados){
-						resultados.push(PMVboth(parseFloat(dados[i]["CLO"]),parseFloat(dados[i]["MET"]),parseFloat(dados[i]["WME"]),parseFloat(dados[i]["TA"]),parseFloat(dados[i]["TR"]),parseFloat(dados[i]["VEL"]),parseFloat(dados[i]["RH"]),parseFloat(dados[i]["PA"])))
-					}
-					PMVmed=[]
-					for (i in resultados){
-						PMVmed.push(resultados[i][0])
-					}
-					PPDmed=[]
-					for (i in resultados){
-						PPDmed.push(resultados[i][1])
-					}
-					function getSum(total, num) {
-						return total + num;
-					}
-					document.getElementById("titulo3").innerHTML=(PMVmed.reduce(getSum)/PMVmed.length).toFixed(2);
-					document.getElementById("titulo4").innerHTML=(PPDmed.reduce(getSum)/PPDmed.length).toFixed(2);
-					//resultados.pop(resultados.length-1)
-                };
-                reader.onerror = function() {
-                    alert('Unable to read ' + file.fileName);
-                };
-            }
-        }
-    });
+	
+	<script type="text/javascript">  
+	PMVboth(0,0,0,0,0,0,0,0)[0];
+	PMVboth(0,0,0,0,0,0,0,0)[1];
 
-</script>
+		$(document).ready(function() {
+
+		document.getElementById('txtFileUpload').addEventListener('change', upload, false);
+
+		function browserSupportFileUpload() {
+			var isCompatible = false;
+			if (window.File && window.FileReader && window.FileList && window.Blob) {
+			isCompatible = true;
+			}
+			return isCompatible;
+		}
+		function upload(evt) {
+			if (!browserSupportFileUpload()) {
+				alert('The File APIs are not fully supported in this browser!');
+				} else {
+					var data = null;
+					var file = evt.target.files[0];
+					var reader = new FileReader();
+					reader.readAsText(file);
+					reader.onload = function(event) {
+						var csvData = event.target.result;
+						data = $.csv.toObjects(csvData);
+						resultados=[]
+						dados = data
+						console.log(dados) // rayner apagar isso depois
+						for (i in dados){
+							
+							if (typeof(dados[i]["CLO"]) == "string" && typeof(dados[i]["MET"]) == "string" && typeof(dados[i]["WME"]) == "string" && typeof(dados[i]["TA"]) == "string" && typeof(dados[i]["TR"]) == "string" && typeof(dados[i]["VEL"]) == "string" && typeof(dados[i]["RH"]) == "string" && typeof(dados[i]["PA"]) == "string"){
+							
+							resultados.push(PMVboth(parseFloat(dados[i]["CLO"]),parseFloat(dados[i]["MET"]),parseFloat(dados[i]["WME"]),parseFloat(dados[i]["TA"]),parseFloat(dados[i]["TR"]),parseFloat(dados[i]["VEL"]),parseFloat(dados[i]["RH"]),parseFloat(dados[i]["PA"])));
+							var x = 0;
+							}
+						}
+						if(x==0){
+						
+						PMVmed=[]
+						for (i in resultados){
+							PMVmed.push(resultados[i][0])
+						}
+						PPDmed=[]
+						for (i in resultados){
+							PPDmed.push(resultados[i][1])
+						}
+						function getSum(total, num) {
+							return total + num;
+						}
+						//document.getElementById("titulo3").innerHTML=(PMVmed.reduce(getSum)/PMVmed.length).toFixed(2);
+						//document.getElementById("titulo4").innerHTML=(PPDmed.reduce(getSum)/PPDmed.length).toFixed(2);
+						//resultados.pop(resultados.length-1)
+						
+						}
+						else {
+						
+							alert("Há algo de errado com seu CSV!")
+						
+						}
+						
+					};
+					reader.onerror = function() {
+						alert('Impossível ler o arquivo ' + file.fileName);
+					};
+				}
+			}
+		});	
+	</script>
+	</head>
+
+
+	
+	
+	<style>
+	
+		
+		@font-face {		
+			font-family: "mFont";
+			src: url("fonts/OptimusPrinceps.ttf");
+		}
+
+		@font-face {
+			font-family: mFont1;
+			src: url("fonts/Personal Services.ttf");
+		}
+		
+		#po, #principal{
+			font-family: mFont1;
+		}
+		
+		label, h3, span{
+			font-family: mFont;
+		}
+		
+		{
+			font-family: mFont1;
+		}
+		
+	</style>
+	
 </head>
-<body bgcolor="">
-<h1>1) CÁLCULO ÚNICO</h1>
-<input type='text' id='clo' placeholder='CLO [clo]'>
-<input type='text' id='met' placeholder='MET [met]'>
-<input type='text' id='wme' placeholder='WME [met]'>
-<input type='text' id='ta' placeholder='TA [°C]'>
-<input type='text' id='va' placeholder='VA [m/s]' ><br>
-<input type='text' id='tmr' placeholder='TMR [°C]'>
-<input type='text' id='ur' placeholder='UR [%]'>
-<input type='text' id='pa' placeholder='PA [kPa]'> 
-   
-
-<button id='calcular' onclick='main()'>Calcular</button>
-<h4>PMV: <small id="titulo1"></small></h4>
-<h4>PPD: <small id="titulo2"></small></h4>
-
-
-
-<h1>2) CÁLCULO EM LOTE</h1>
-<div id="dvImportSegments" class="fileupload ">
-<input type='file' name='Carregar' id='txtFileUpload' accept=".csv">
-<button id='baixar' onclick='exportToCSV(resultados)'>Baixar</button>
+<body>
+	<div class="uk-container">
+		
+		<ul id="principal" class="uk-child-width-expand" data-uk-tab="{connect:'#my-id'}">
+			<li class="uk-active"><a href="#pmv">PMV</a></li>
+			<li><a href="#">SPREADSHEET</a></li>
+			<li><a href="#">ABOUT</a></li>
+		</ul>
+		
+		<ul id="my-id" class="uk-switcher uk-margin">
+		<li>
+			<form class="uk-form-stacked" uk-grid> 
+					<div class="uk-width-1-4@s">
+						<label class="">clothing insulation [clo]</label>
+						<input class="uk-input uk-form-small" type='number' id='clo' step="0.01"/>
+					</div>
+					<div class="uk-width-1-4@s">
+						<label class="">metabolic rate [met]</label>
+						<input class="uk-input uk-form-small" type='number' id='met' step="0.01"/>
+					</div>
+					<div class="uk-width-1-4@s">
+						<label class="">mechanical work [met]</label>
+						<input class="uk-input uk-form-small" type='number' id='wme' step="0.01"/>
+					</div>
+					<div class="uk-width-1-4@s">
+						<label class="">air temperature [°C]</label>
+						<input class="uk-input uk-form-small" type='number' id='ta' step="0.01"/>
+					</div>
+					<div class="uk-width-1-4@s">
+						<label class="">air speed [m/s]</label>
+						<input class="uk-input uk-form-small" type='number' id='va' step="0.01"/>
+					</div>
+					<div class="uk-width-1-4@s">
+						<label class="">mean radiant temperature [°C]</label>
+						<input class="uk-input uk-form-small" type='number' id='tmr' step="0.01"/>
+					</div>
+					<div class="uk-width-1-4@s">
+						<label class="">relative humidity [%]</label>
+						<input class="uk-input uk-form-small" type='number' id='ur' step="0.01"/>
+					</div>
+					<div class="uk-width-1-4@s">
+						<label class="">atmospheric pressure [kPa]</label>
+						<input class="uk-input uk-form-small" type='number' id='pa' step="0.001"/> 
+					</div>
+			</form>
+						
+			<button class="uk-button uk-margin uk-button-default uk-width-1-1 uk-margin-small-bottom" id='calcular' onclick='main()'><span>Calcular</span></button>
+		
+			<h2 class="uk-modal-title">PMV</h2>
+			<h3 class="uk-modal-title"><center id="pmvOut"><br></center></h3>
+			<h2 class="uk-modal-title">PPD</h2>
+			<h3 class="uk-modal-title"><center id="ppdOut"><br></center></h3>
+		</li>
+		<li><center>
+			<!-- spreadsheet -->
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+			<script src="http://cdn.bossanova.uk/js/jquery.jexcel.js"></script>
+			<link rel="stylesheet" href="http://cdn.bossanova.uk/css/jquery.jexcel.css" type="text/css" />			
+			
+			<div id='my-spreadsheet' class="uk-container"></div><br>
+			<button class="uk-button uk-button-default uk-width-1-1 uk-margin-small-bottom" onclick="spreadsheetCalcule();" id='calculate'><span>DOWNLOAD SPREADSHEET CALCULATED</span></button>
+			
+			<hr class="uk-divider-icon">
+			
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.71/jquery.csv-0.71.min.js"></script>
+<div class="test-upload uk-placeholder uk-text-center">
+    <span uk-icon="icon: cloud-upload"></span>
+    <span class="uk-text-middle">Upload csv file by dropping them here or</span>
+    <div uk-form-custom>
+        <input type="file" id="txtFileUpload" multiple>
+        <span class="uk-link">selecting one</span>
+    </div>
 </div>
-<h4>PMV MÉDIO: <small id="titulo3"></small></h4>
-<h4>PPD MÉDIO: <small id="titulo4"></small></h4>
 
-<h1>3) CSV PADRÃO</h1>	
-<a href="data01.csv"> <img src="img01.png"></a>
-	
-<script type="text/javascript">
-function main(){
-	var clo=parseFloat(document.getElementById("clo").value);
-	var met=parseFloat(document.getElementById("met").value);
-	var wme=parseFloat(document.getElementById("wme").value);
-	var ta=parseFloat(document.getElementById("ta").value);
-	var tmr=parseFloat(document.getElementById("tmr").value);
-	var va=parseFloat(document.getElementById("va").value);
-	var ur=parseFloat(document.getElementById("ur").value);
-	var pa=parseFloat(document.getElementById("pa").value);
-	document.getElementById("titulo1").innerHTML=PMVboth(clo,met,wme,ta,tmr,va,ur,pa)[0];
-	document.getElementById("titulo2").innerHTML=PMVboth(clo,met,wme,ta,tmr,va,ur,pa)[1];
-}
+<progress id="progressbar" class="uk-progress" value="0" max="100" hidden></progress>
 
-var objectToCSVRow = function(dataObject) {
-    var dataArray = new Array;
-    for (var o in dataObject) {
-        var innerValue = dataObject[o]===null?'':dataObject[o].toString();
-        var result = innerValue.replace(/"/g, '""');
-        result = '' + result + ',';
-        dataArray.push(result);
-    }
-    return dataArray.join(' ') + '\r\n';
-}
+<script>
 
-var exportToCSV = function(arrayOfObjects) {
+    (function ($) {
 
-    if (!arrayOfObjects.length) {
-        return;
-    }
+        var bar = $("#progressbar")[0];
 
-    var csvContent = "data:text/csv;charset=utf-8,";
+        UIkit.upload('.test-upload', {
 
-	csvContent += objectToCSVRow(["PMV","PPD"]);
+            url: '',
+            multiple: true,
 
-    arrayOfObjects.forEach(function(item){
-        csvContent += objectToCSVRow(item);
-    }); 
-	
-    var encodedUri = encodeURI(csvContent);
-    var link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "pmv_ppd_output.csv");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link); 
-}
+            beforeSend: function() { console.log('beforeSend', arguments); },
+            beforeAll: function() { console.log('beforeAll', arguments); },
+            load: function() { console.log('load', arguments); },
+            error: function() { console.log('error', arguments); },
+            complete: function() { console.log('complete', arguments); },
+
+            loadStart: function (e) {
+                console.log('loadStart', arguments);
+
+                bar.removeAttribute('hidden');
+                bar.max =  e.total;
+                bar.value =  e.loaded;
+            },
+
+            progress: function (e) {
+                console.log('progress', arguments);
+
+                bar.max =  e.total;
+                bar.value =  e.loaded;
+
+            },
+
+            loadEnd: function (e) {
+                console.log('loadEnd', arguments);
+
+                bar.max =  e.total;
+                bar.value =  e.loaded;
+            },
+
+            completeAll: function () {
+                console.log('completeAll', arguments);
+
+                setTimeout(function () {
+                    bar.setAttribute('hidden', 'hidden');
+                }, 1000);
+
+                alert('Upload Completed');
+            }
+        });
+
+    })(jQuery);
+
 </script>
+			
+			<button class="uk-button uk-button-default uk-width-1-1 uk-margin-small-bottom" onclick='exportToCSV(resultados)' id='download'><span>DOWNLOAD CSV FILE CALCULATED</span></button>
+			
+			<script>
+			data = [ [], [], [], [], []];
+			
+			function spreadsheet(){
+				var larguraTot=window.innerWidth*(145*8+40)/1366;
+				menos = 7+(window.innerWidth-681)*((10-7)/(1366-681));
+				larguraCel = ((larguraTot-40)/8-menos); // metade tem que ser 7 (681...72),  todo tem que ser 10 (1366...145);
+								
+				$('#my-spreadsheet').jexcel({
+					data:data,
+					colHeaders: ['CLO', 'MET', 'WME', 'TA', 'TR', 'VEL', 'RH', 'PA' ],
+					colWidths: [ larguraCel, larguraCel, larguraCel, larguraCel, larguraCel, larguraCel, larguraCel, larguraCel]
+				});				
+			}
+			
+			spreadsheet();
+			
+			$('window.innerWidth').on('change', function(){spreadsheet()});
+				
+			$('#download').on('click', function () {
+    		$('#my-spreadsheet').jexcel('download');
+			});
+			
+			</script>
+			
+			
+			</center>
+		</li>
+		<li>
+		<h3>Objective:</h3>
+		<p id="po"><center></center></p>
+		<h3>Developers:</h3>
+		<p id="po"><center></center></p>
+		<a href="data01.csv"> <img src="img01.png"></a>
+		</li>
+		</ul>
+	</div>
+	
+	<script type="text/javascript">
+	
+		function spreadsheetCalcule(){
+				resultados=[];
+				for (i in data){
+					if (data[i][0]!=""){
+						resultados.push(PMVboth(parseFloat(data[i][0]),parseFloat(data[i][1]),parseFloat(data[i][2]),parseFloat(data[i][3]),parseFloat(data[i][4]),parseFloat(data[i][5]),parseFloat(data[i][6]),parseFloat(data[i][7])));
+					}
+				}
+				exportToCSV(resultados);
+			}
+	
+	
+		function main(){
+			var clo=parseFloat(document.getElementById("clo").value);
+			var met=parseFloat(document.getElementById("met").value);
+			var wme=parseFloat(document.getElementById("wme").value);
+			var ta=parseFloat(document.getElementById("ta").value);
+			var tmr=parseFloat(document.getElementById("tmr").value);
+			var va=parseFloat(document.getElementById("va").value);
+			var ur=parseFloat(document.getElementById("ur").value);
+			var pa=parseFloat(document.getElementById("pa").value);
+			document.getElementById("pmvOut").innerHTML=PMVboth(clo,met,wme,ta,tmr,va,ur,pa)[0];
+			document.getElementById("ppdOut").innerHTML=PMVboth(clo,met,wme,ta,tmr,va,ur,pa)[1];
+		}
 
+		var objectToCSVRow = function(dataObject) {
+			var dataArray = new Array;
+			for (var o in dataObject) {
+				var innerValue = dataObject[o]===null?'':dataObject[o].toString();
+				var result = innerValue.replace(/"/g, '""');
+				result = '' + result + ',';
+				dataArray.push(result);
+			}
+			return dataArray.join(' ') + '\r\n';
+		}
+
+		var exportToCSV = function(arrayOfObjects) {
+
+			if (!arrayOfObjects.length) {
+				return;
+			}
+
+			var csvContent = "data:text/csv;charset=utf-8,";
+
+			csvContent += objectToCSVRow(["PMV","PPD"]);
+
+			arrayOfObjects.forEach(function(item){
+				csvContent += objectToCSVRow(item);
+			}); 
+			
+			var encodedUri = encodeURI(csvContent);
+			var link = document.createElement("a");
+			link.setAttribute("href", encodedUri);
+			link.setAttribute("download", "pmv_ppd_output.csv");
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link); 
+		}
+	</script>
+</body>
 </html>
