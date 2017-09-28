@@ -127,8 +127,9 @@
 	<div class="uk-container">
 		
 		<ul id="principal" class="uk-child-width-expand" data-uk-tab="{connect:'#my-id'}">
-			<li class="uk-active"><a href="#pmv">PMV</a></li>
+			<li class="uk-active"><a href="#pmv">HOME</a></li>
 			<li><a href="#">SPREADSHEET</a></li>
+			<li><a href="#">UPLOAD</a></li>
 			<li><a href="#">ABOUT</a></li>
 		</ul>
 		
@@ -184,10 +185,37 @@
 			
 			<div id='my-spreadsheet' class="uk-container"></div><br>
 			<button class="uk-button uk-button-default uk-width-1-1 uk-margin-small-bottom" onclick="spreadsheetCalcule();" id='calculate'><span>DOWNLOAD SPREADSHEET CALCULATED</span></button>
+				
+			<script>
+			data = [ [], [], [], [], []];
 			
-			<hr class="uk-divider-icon">
+			function spreadsheet(){
+				var larguraTot=window.innerWidth*(145*8+40)/1366;
+				menos = 7+(window.innerWidth-681)*((10-7)/(1366-681));
+				larguraCel = ((larguraTot-40)/8-menos); // metade tem que ser 7 (681...72),  todo tem que ser 10 (1366...145);
+								
+				$('#my-spreadsheet').jexcel({
+					data:data,
+					colHeaders: ['CLO', 'MET', 'WME', 'TA', 'TR', 'VEL', 'RH', 'PA' ],
+					colWidths: [ larguraCel, larguraCel, larguraCel, larguraCel, larguraCel, larguraCel, larguraCel, larguraCel]
+				});				
+			}
 			
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.71/jquery.csv-0.71.min.js"></script>
+			spreadsheet();
+			
+			$('window.innerWidth').on('change', function(){spreadsheet()});
+				
+			$('#download').on('click', function () {
+    		$('#my-spreadsheet').jexcel('download');
+			});
+			
+			</script>
+			
+			
+			</center>
+		</li>
+		<li>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.71/jquery.csv-0.71.min.js"></script>
 <div class="test-upload uk-placeholder uk-text-center">
     <span uk-icon="icon: cloud-upload"></span>
     <span class="uk-text-middle">Upload csv file by dropping them here or</span>
@@ -255,34 +283,6 @@
 </script>
 			
 			<button class="uk-button uk-button-default uk-width-1-1 uk-margin-small-bottom" onclick='exportToCSV(resultados)' id='download'><span>DOWNLOAD CSV FILE CALCULATED</span></button>
-			
-			<script>
-			data = [ [], [], [], [], []];
-			
-			function spreadsheet(){
-				var larguraTot=window.innerWidth*(145*8+40)/1366;
-				menos = 7+(window.innerWidth-681)*((10-7)/(1366-681));
-				larguraCel = ((larguraTot-40)/8-menos); // metade tem que ser 7 (681...72),  todo tem que ser 10 (1366...145);
-								
-				$('#my-spreadsheet').jexcel({
-					data:data,
-					colHeaders: ['CLO', 'MET', 'WME', 'TA', 'TR', 'VEL', 'RH', 'PA' ],
-					colWidths: [ larguraCel, larguraCel, larguraCel, larguraCel, larguraCel, larguraCel, larguraCel, larguraCel]
-				});				
-			}
-			
-			spreadsheet();
-			
-			$('window.innerWidth').on('change', function(){spreadsheet()});
-				
-			$('#download').on('click', function () {
-    		$('#my-spreadsheet').jexcel('download');
-			});
-			
-			</script>
-			
-			
-			</center>
 		</li>
 		<li>
 		<h3>Objective:</h3>
