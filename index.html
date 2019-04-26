@@ -20,6 +20,33 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.30/js/uikit.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.30/js/uikit-icons.min.js"></script>
 
+	<style>
+	
+		
+		@font-face {		
+			font-family: "mFont";
+			src: url("fonts/OptimusPrinceps.ttf");
+		}
+
+		@font-face {
+			font-family: mFont1;
+			src: url("fonts/Personal Services.ttf");
+		}
+		
+		#po, #principal{
+			font-family: mFont1;
+		}
+		
+		label, h3, span{
+			font-family: mFont;
+		}
+		
+		{
+			font-family: mFont1;
+		}
+		
+	</style>
+
 	
 	<script type="text/javascript">  
 	PMVboth(0,0,0,0,0,0,0,0)[0];
@@ -90,39 +117,8 @@
 			}
 		});	
 	</script>
-	</head>
-
-
-	
-	
-	<style>
-	
-		
-		@font-face {		
-			font-family: "mFont";
-			src: url("fonts/OptimusPrinceps.ttf");
-		}
-
-		@font-face {
-			font-family: mFont1;
-			src: url("fonts/Personal Services.ttf");
-		}
-		
-		#po, #principal{
-			font-family: mFont1;
-		}
-		
-		label, h3, span{
-			font-family: mFont;
-		}
-		
-		{
-			font-family: mFont1;
-		}
-		
-	</style>
-	
 </head>
+
 <body>
 	<div class="uk-container">
 		
@@ -201,7 +197,13 @@
 				});				
 			}
 			
-			spreadsheet();
+			$(document).ready(function(){
+				spreadsheet();
+			  $(window).resize(function(){
+				spreadsheet();
+			  });
+			});				
+			
 			
 			$('window.innerWidth').on('change', function(){spreadsheet()});
 				
@@ -215,74 +217,74 @@
 			</center>
 		</li>
 		<li>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.71/jquery.csv-0.71.min.js"></script>
-<div class="test-upload uk-placeholder uk-text-center">
-    <span uk-icon="icon: cloud-upload"></span>
-    <span class="uk-text-middle">Upload csv file by dropping them here or</span>
-    <div uk-form-custom>
-        <input type="file" id="txtFileUpload" multiple>
-        <span class="uk-link">selecting one</span>
-    </div>
-</div>
+				<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.71/jquery.csv-0.71.min.js"></script>
+		<div class="test-upload uk-placeholder uk-text-center">
+		    <span uk-icon="icon: cloud-upload"></span>
+		    <span class="uk-text-middle">Upload csv file by dropping them here or</span>
+		    <div uk-form-custom>
+		        <input type="file" id="txtFileUpload" multiple>
+		        <span class="uk-link">selecting one</span>
+		    </div>
+		</div>
 
-<progress id="progressbar" class="uk-progress" value="0" max="100" hidden></progress>
+		<progress id="progressbar" class="uk-progress" value="0" max="100" hidden></progress>
 
-<script>
+		<script>
 
-    (function ($) {
+		    (function ($) {
 
-        var bar = $("#progressbar")[0];
+		        var bar = $("#progressbar")[0];
 
-        UIkit.upload('.test-upload', {
+		        UIkit.upload('.test-upload', {
 
-            url: '',
-            multiple: true,
+		            url: '',
+		            multiple: true,
 
-            beforeSend: function() { console.log('beforeSend', arguments); },
-            beforeAll: function() { console.log('beforeAll', arguments); },
-            load: function() { console.log('load', arguments); },
-            error: function() { console.log('error', arguments); },
-            complete: function() { console.log('complete', arguments); },
+		            beforeSend: function() { console.log('beforeSend', arguments); },
+		            beforeAll: function() { console.log('beforeAll', arguments); },
+		            load: function() { console.log('load', arguments); },
+		            error: function() { console.log('error', arguments); },
+		            complete: function() { console.log('complete', arguments); },
 
-            loadStart: function (e) {
-                console.log('loadStart', arguments);
+		            loadStart: function (e) {
+		                console.log('loadStart', arguments);
 
-                bar.removeAttribute('hidden');
-                bar.max =  e.total;
-                bar.value =  e.loaded;
-            },
+		                bar.removeAttribute('hidden');
+		                bar.max =  e.total;
+		                bar.value =  e.loaded;
+		            },
 
-            progress: function (e) {
-                console.log('progress', arguments);
+		            progress: function (e) {
+		                console.log('progress', arguments);
 
-                bar.max =  e.total;
-                bar.value =  e.loaded;
+		                bar.max =  e.total;
+		                bar.value =  e.loaded;
 
-            },
+		            },
 
-            loadEnd: function (e) {
-                console.log('loadEnd', arguments);
+		            loadEnd: function (e) {
+		                console.log('loadEnd', arguments);
 
-                bar.max =  e.total;
-                bar.value =  e.loaded;
-            },
+		                bar.max =  e.total;
+		                bar.value =  e.loaded;
+		            },
 
-            completeAll: function () {
-                console.log('completeAll', arguments);
+		            completeAll: function () {
+		                console.log('completeAll', arguments);
 
-                setTimeout(function () {
-                    bar.setAttribute('hidden', 'hidden');
-                }, 1000);
+		                setTimeout(function () {
+		                    bar.setAttribute('hidden', 'hidden');
+		                }, 1000);
 
-                alert('Upload Completed');
-            }
-        });
+		                alert('Upload Completed');
+		            }
+		        });
 
-    })(jQuery);
+		    })(jQuery);
 
-</script>
-			
-			<button class="uk-button uk-button-default uk-width-1-1 uk-margin-small-bottom" onclick='exportToCSV(resultados)' id='download'><span>DOWNLOAD CSV FILE CALCULATED</span></button>
+		</script>
+					
+					<button class="uk-button uk-button-default uk-width-1-1 uk-margin-small-bottom" onclick='exportToCSV(resultados)' id='download'><span>DOWNLOAD CSV FILE CALCULATED</span></button>
 		</li>
 		<li>
 		<h3>Objective:</h3>
