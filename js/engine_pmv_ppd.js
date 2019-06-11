@@ -518,10 +518,12 @@ var PMVboth=function(CLO,MET,WME,TA,TR,VEL,RH,PA)
     
   var resultado=PMV
   
+  var SET = SETashrae(CLO,MET,WME,TA,TR,VEL,RH)
+
   //---Predicted Percentage Dissatisfied - PPD
   var PPD=100-95*Math.exp(-0.03353*PMV**4-0.2179*PMV**2)
 
-  var result=[parseFloat(PMV.toFixed(2)),parseFloat(PPD.toFixed(2))]
+  var result=[parseFloat(PMV.toFixed(2)), parseFloat(PPD.toFixed(2)), parseFloat(SET.toFixed(2))]
    
   return(result)
 }

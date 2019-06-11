@@ -51,6 +51,7 @@
 	<script type="text/javascript">  
 	PMVboth(0,0,0,0,0,0,0,0)[0];
 	PMVboth(0,0,0,0,0,0,0,0)[1];
+	PMVboth(0,0,0,0,0,0,0,0)[2];
 
 		$(document).ready(function() {
 
@@ -341,7 +342,7 @@
 
 			var csvContent = "data:text/csv;charset=utf-8,";
 
-			csvContent += objectToCSVRow(["PMV","PPD"]);
+			csvContent += objectToCSVRow(["PMV","PPD","SET"]);
 
 			arrayOfObjects.forEach(function(item){
 				csvContent += objectToCSVRow(item);
