@@ -135,37 +135,37 @@
 			<form class="uk-form-stacked" uk-grid> 
 					<div class="uk-width-1-4@s">
 						<label class="">clothing insulation [clo]</label>
-						<input class="uk-input uk-form-small" type='number' id='clo' step="0.01" min="0" max="1.5" 
+						<input class="uk-input uk-form-small" type='number' placeholder="1.5" id='clo' step="0.01" min="0" max="1.5" 
    						onKeyUp="if(this.value>1.5){this.value='1.5';}else if(this.value<0){this.value='0';}"/>
 					</div>
 					<div class="uk-width-1-4@s">
 						<label class="">metabolic rate [met]</label>
-						<input class="uk-input uk-form-small" type='number' id='met' step="0.01" min="1" max="2" 
+						<input class="uk-input uk-form-small" type='number' placeholder="1.15" id='met' step="0.01" min="1" max="2" 
    						onKeyUp="if(this.value>2){this.value='2';}else if(this.value<1){this.value='1';}"/>
 					</div>
 					<div class="uk-width-1-4@s">
 						<label class="">mechanical work [met]</label>
-						<input class="uk-input uk-form-small" type='number' id='wme' step="0.01" onKeyUp="if(this.value<0){this.value='0';}" />
+						<input class="uk-input uk-form-small" type='number' placeholder="0" id='wme' step="0.01" onKeyUp="if(this.value<0){this.value='0';}" />
 					</div>
 					<div class="uk-width-1-4@s">
 						<label class="">air temperature [°C]</label>
-						<input class="uk-input uk-form-small" type='number' id='ta' step="0.01"/>
+						<input class="uk-input uk-form-small" type='number' placeholder="25.9" id='ta' step="0.01"/>
 					</div>
 					<div class="uk-width-1-4@s">
 						<label class="">air speed [m/s]</label>
-						<input class="uk-input uk-form-small" type='number' id='va' step="0.01" onKeyUp="if(this.value<0){this.value='0';}"/>
+						<input class="uk-input uk-form-small" type='number' placeholder="1.78" id='va' step="0.01" onKeyUp="if(this.value<0){this.value='0';}"/>
 					</div>
 					<div class="uk-width-1-4@s">
 						<label class="">mean radiant temperature [°C]</label>
-						<input class="uk-input uk-form-small" type='number' id='tmr' step="0.01"/>
+						<input class="uk-input uk-form-small" type='number' placeholder="30.5" id='tmr' step="0.01"/>
 					</div>
 					<div class="uk-width-1-4@s">
 						<label class="">relative humidity [%]</label>
-						<input class="uk-input uk-form-small" type='number' id='ur' onKeyUp="if(this.value>100){this.value='100';}else if(this.value<0){this.value='0';}"/>
+						<input class="uk-input uk-form-small" type='number' placeholder="57.3" id='ur' onKeyUp="if(this.value>100){this.value='100';}else if(this.value<0){this.value='0';}"/>
 					</div>
 					<div class="uk-width-1-4@s">
 						<label class="">atmospheric pressure [kPa]</label>
-						<input class="uk-input uk-form-small" type='number' id='pa' step="0.001"/> 
+						<input class="uk-input uk-form-small" type='number' placeholder="101.325" id='pa' step="0.001"/> 
 					</div>
 			</form>
 						
